@@ -1,5 +1,5 @@
-package M22_4_Alter;
-
+package M22_4_Update;
+//Изменим запрос так, чтобы он добавлял имя пользователя под Id=9
 import java.sql.*;
 
 public class Main {
@@ -10,24 +10,23 @@ public class Main {
     static Connection connection;
     public static void main(String[] args) {
         //строка для соединения с БД
-        String URL ="jdbc:postgresql://"+HOST+"/"+DATABASE+"?user="+USERNAME+"&password="+PASSWORD;//путь к БД
-        String URL1 =String.format("jdbc:postgresql://%s/%s?user=%s&password=%s", HOST, DATABASE, USERNAME, PASSWORD);
-        System.out.println(URL);
+//        String URL = "jdbc:postgresql://" + HOST + "/" + DATABASE + "?user=" + USERNAME + "&password=" + PASSWORD;//путь к БД
+        String URL1 = String.format("jdbc:postgresql://%s/%s?user=%s&password=%s", HOST, DATABASE, USERNAME, PASSWORD);
+//        System.out.println(URL);
         System.out.println(URL1);
-        try{
+        try {
             connection = DriverManager.getConnection(URL1, USERNAME, PASSWORD);
-            if (connection==null){
+            if (connection == null) {
                 System.out.println("Нет соединения с БД!");
-            }else{
+            } else {
                 System.out.println("Соединение с БД установлено корректно.");
-                //ПРАКТИКА Модуль 22.4. вставка и обновление БД (ДОБАВЛЕН КОД)
-                String SQL = "ALTER TABLE test ADD name varchar(255);";//добавление столбца name
-                try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)){
+                //Код остается прежним за исключением SQL
+                String SQL = "UPDATE test set name = 'Nick' where ID=9;";//добавляем значение имени пользователя по условию
+                try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
                     preparedStatement.executeUpdate();
                 }
-                //конец добавленного кода
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
