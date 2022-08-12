@@ -20,13 +20,13 @@ public class BatchProcessing {
             else {//если соединение есть
                 System.out.println("Соединение с БД установлено корректно");
             }
-            String SQL = "INSERT INTO test(ID,user) VALUES(?,?);";
+            String SQL = "INSERT INTO test(ID, user) VALUES(?,?);";
             //Запрос на получение всех данных
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL)) {
                 //Часть кода, в котором мы добавляем несколько запросов для одной отправки данных
-                preparedStatement.setInt(1, 10);//запрос
-                preparedStatement.setString(2, "Olaf");
-                preparedStatement.addBatch();
+                preparedStatement.setInt(1, 10);//запрос на добавление значения 10 в первый столбец
+                preparedStatement.setString(2, "Olaf");//запрос на добавление значения имени в столбец 2 (name)
+                preparedStatement.addBatch();//блок
 
                 preparedStatement.setInt(1, 11);
                 preparedStatement.setString(2, "Erik");
@@ -40,8 +40,8 @@ public class BatchProcessing {
                 connection.commit();
                 System.out.println("Данные отправлены");
             }
-        } catch (SQLException e) {
-            connection.rollback();
+        } catch (SQLException e) {//ClassNotFoundException |
+                connection.rollback();
             System.err.println("Данные не добавлены");
             e.printStackTrace();
         }
